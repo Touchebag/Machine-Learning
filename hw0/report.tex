@@ -9,6 +9,37 @@
 \rhead{robint@student.chalmers.se}
 
 \begin{document}
-\section{Homework 0}
+\setcounter{section}{1}
+\chapter{Homework 0}
+\subsection{}
+
+Bayes' rule states that $P(A\mid B) = \frac{P(A)P(B\mid A)}{P(B)}$. Let A be the
+probability of me having cancer and let B be the probability of me testing
+positive.
+
+So to calcuate the probability of me having cancer given that I test positive
+($P(A\mid B)$) we must calculate $P(A)$, $P(B\mid A)$ and $P(B)$.  We know
+$P(A)$ (me having cancer) and $P(B\mid A)$ (me testing positive given that I
+do, in fact, have cancer) from the assignment. 0.0001 and 0.99 respectively.
+
+To calculate $P(B)$ we take the probability of testing positive times the
+probability of having cancer plus the probability of me testing a false
+positive. We can add these probabilities since we know that the events are
+totally disjunct (I can't both have cancer and not have it).
+
+\begin{equation*}
+0.99 \cdot 0.0001 + 0.01 \cdot 0.9999 = 0.0100989
+\end{equation*}
+
+So the final probability becomes:
+
+\begin{equation*}
+  P(A\mid B) = \frac{P(A)P(B\mid A)}{P(B)} =
+  \frac{0.0001 \cdot 0.99}{0.0100989} \approx 0.0098 \approx 1\%
+\end{equation*}
+
+\subsection{}
+
+
 
 \end{document}
