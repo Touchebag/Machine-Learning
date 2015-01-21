@@ -27,16 +27,16 @@ probability of having cancer plus the probability of me testing a false
 positive. We can add these probabilities since we know that the events are
 totally disjunct (I can't both have cancer and not have it).
 
-\begin{equation*}
+\begin{equation}
 0.99 \cdot 0.0001 + 0.01 \cdot 0.9999 = 0.0100989
-\end{equation*}
+\end{equation}
 
 So the final probability becomes:
 
-\begin{equation*}
+\begin{equation}
   P(A\mid B) = \frac{P(A)P(B\mid A)}{P(B)} =
   \frac{0.0001 \cdot 0.99}{0.0100989} \approx 0.0098 \approx 1\%
-\end{equation*}
+\end{equation}
 
 \subsection{}
 
@@ -46,17 +46,18 @@ of $x$ and $y$ can be simplified to $\mathbf{E}[XY] -
 
 By definition the expected value of a continous random variable is calculated as
 
-\begin{equation*}
+\begin{equation}
+  \label{expvalue}
   \mathbf{E}[X] = \int_{-\infty}^{\infty} x f(x) dx
-\end{equation*}
+\end{equation}
 
 where $f(x)$ is the probability mass function. Since we know that $X$ is
 uniformly distribuited in this interval the density function is just $1$ and
 the entire equation becomes
 
-\begin{equation*}
+\begin{equation}
   \mathbf{E}[X] = \int_{-\infty}^{\infty} x dx
-\end{equation*}
+\end{equation}
 
 wich we know to be $0$. This means that we do not need to calculate the
 expected value of $Y$ since $\mathbf{E}[X]\mathbf{E}[Y] = 0$. This, in turn,
@@ -64,6 +65,7 @@ means that to get a covariance of $0$ we need to prove that $\mathbf{E}[XY] =
 0$ as well.
 
 We know that $Y = X^2$ so $XY = X^3$. This means that we need to calculate
-$\mathbf{E}[X^3]$
+$\mathbf{E}[X^3]$. Using equation \ref{expvalue} we get that the expected value
+of $X^3$ is also $0$.
 
 \end{document}
