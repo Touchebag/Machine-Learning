@@ -40,6 +40,30 @@ So the final probability becomes:
 
 \subsection{}
 
+The covariance $cov(X,Y) = \mathbf{E}[(X - \mathbf{E}[X])(Y - \mathbf{E}[Y])]$
+of $x$ and $y$ can be simplified to $\mathbf{E}[XY] -
+\mathbf{E}[X]\mathbf{E}[Y]$ where $\mathbf{E}[X]$ is the expected value of $X$.
 
+By definition the expected value of a continous random variable is calculated as
+
+\begin{equation*}
+  \mathbf{E}[X] = \int_{-\infty}^{\infty} x f(x) dx
+\end{equation*}
+
+where $f(x)$ is the probability mass function. Since we know that $X$ is
+uniformly distribuited in this interval the density function is just $1$ and
+the entire equation becomes
+
+\begin{equation*}
+  \mathbf{E}[X] = \int_{-\infty}^{\infty} x dx
+\end{equation*}
+
+wich we know to be $0$. This means that we do not need to calculate the
+expected value of $Y$ since $\mathbf{E}[X]\mathbf{E}[Y] = 0$. This, in turn,
+means that to get a covariance of $0$ we need to prove that $\mathbf{E}[XY] =
+0$ as well.
+
+We know that $Y = X^2$ so $XY = X^3$. This means that we need to calculate
+$\mathbf{E}[X^3]$
 
 \end{document}
