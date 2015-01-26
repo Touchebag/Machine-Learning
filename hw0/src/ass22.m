@@ -1,12 +1,18 @@
 % Robin Touche
-% Homework 0 - Assignment 2.1
+% Homework 0 - Assignment 2.2
 
-file  = fopen("./dataset0.txt");
-input = fscanf(file, "%d", [12 1074]);
+X = load('./dataset0.txt');
 
-Xcov  = cov (input');
-Xcorr = corr(input');
+Xcov  = cov (X);
+Xcorr = corr(X);
 
-Ycov  = cov (input' .*0.2)
-Ycorr = corr(input' .*0.2)
+Tmp = bsxfun(@minus, X, min(X));
+Y = bsxfun(@rdivide, Tmp, max(Tmp));
 
+Ycov  = cov (Y);
+Ycorr = corr(Y);
+
+[x1, x2] = find(Ycorr == min(Ycorr(:)));
+tmp = Y(:, x1);
+
+scatter(tmp(:,2), tmp(:,1));
