@@ -17,20 +17,20 @@ f = @(x,r) (((x - mu)' * inv(sigma) * (x - mu)) / 2) - r;
 g = @(x1,x2) ((([x1;x2] - mu)' * inv(sigma) * ([x1;x2] - mu)) / 2) - 3;
 values = arrayfun(g, data(:,1), data(:,2));
 
-blackPoints = data(values < 0, :);
-bluePoints  = data(values >= 0, :);
+blackPoints = data(values > 0, :);
+bluePoints  = data(values <= 0, :);
 
 hold on;
-plot1 = ezplot(@(x,y) f([x;y], 1))
+plot1 = ezplot(@(x,y) f([x;y], 1));
 set(plot1, 'color', 'r')
-plot2 = ezplot(@(x,y) f([x;y], 2))
+plot2 = ezplot(@(x,y) f([x;y], 2));
 set(plot1, 'color', 'o')
-plot3 = ezplot(@(x,y) f([x;y], 3))
+plot3 = ezplot(@(x,y) f([x;y], 3));
 set(plot1, 'color', 'y')
 
-scatter(blackPoints(:,1), blackPoints(:,2), 'b')
-scatter(bluePoints (:,1), bluePoints (:,2), 'k')
+scatter(blackPoints(:,1), blackPoints(:,2), 'k')
+scatter(bluePoints (:,1), bluePoints (:,2), 'b')
 
-title(['Number of points outside f(x,3) = 0: ' num2string(size(blackPoints, 1))])
+title(['Number of points outside f(x,3) = 0: ' num2str(size(blackPoints, 1))]);
 
 hold off;
