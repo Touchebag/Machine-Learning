@@ -1,0 +1,59 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{mathtools}
+\usepackage{amsmath}
+
+\pagestyle{fancy}
+
+\lhead{Robin Touche 900610-3270}
+\rhead{robint@student.chalmers.se}
+
+\begin{document}
+\chapter{Homework 1}
+\setcounter{section}{1}
+\subsection{}
+
+To find $\sigma$ we need to try to maximise the likelihood function
+$\mathcal{L}$ given as the probability density function $f(x_1, x_2, ... , x_n
+\vert \theta)$ where $\theta = (\mu, \sigma^2)$.
+
+The probability density function is given by:
+
+\begin{align}
+  f(\mathbf{x} \vert \mu , \sigma^2) = \frac{1}{2\pi^{p / 2} \sigma}
+  \cdot e^{\left( - \frac{1}{2} \left( \mathbf{x} - \mu \right) ^T
+  \sigma^2 \left(\mathbf{x} - \mu \right) \right)}
+\end{align}
+
+The likelihood function can be simplified to:
+
+\begin{align}
+  \mathcal{L}(\theta ; \mathbf{x}) &= \prod_{i = 1}^{n}f(x_i \vert \theta) =\\
+  \notag &= \left( \frac{1}{\sigma\sqrt{2\pi}^{p}} \right) ^n
+    \cdot e^{\left( - \frac{1}{2} \sum_{i = 1}^{n}
+    \notag \left( x_i - \mu \right) ^T \sigma^2 \left(x_i - \mu \right) \right)}
+\end{align}
+
+To get rid of the annoying exponent we can instead work with the natural
+logarithm of $\mathcal{L}$.
+
+\begin{align}
+  ln(\mathcal{L}) = - \frac{n}{2} ln(2\pi) - ln(\sigma)
+    - \frac{1}{2} \sum_{i = 1}^{n}
+    \left( x_i - \mu \right) ^T \sigma^2 \left(x_i - \mu \right)
+\end{align}
+
+Since we want to maximise this we can find $\theta$ s.t. the derivative
+$\frac{d}{d\theta}ln(\mathcal{L}) = 0$.
+
+\begin{align}
+  \frac{d}{d\theta}ln(\mathcal{L}) = -\frac{n}{\theta} + \frac{1}{\sigma^3}
+  \sum_{i = 1}^{n} \left( x_i - \mu \right) ^T \left(x_i - \mu \right) \Rightarrow \\
+  \sigma^2 = \frac{1}{N} \sum_{i = 0}^{N - 1}
+    \left( x_i - \hat{x} \right) \left(x_i - \hat{x} \right)^T
+\end{align}
+
+where $\hat{x}$ is the expected value of $x$.
+
+\end{document}
