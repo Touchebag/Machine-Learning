@@ -44,16 +44,40 @@ logarithm of $\mathcal{L}$.
     \left( x_i - \mu \right) ^T \sigma^2 \left(x_i - \mu \right)
 \end{align}
 
-Since we want to maximise this we can find $\theta$ s.t. the derivative
-$\frac{d}{d\theta}ln(\mathcal{L}) = 0$.
+Since we want to maximise this we can find $\sigma$ s.t. the derivative
+$\frac{d}{d\sigma}ln(\mathcal{L}) = 0$.
 
 \begin{align}
-  \frac{d}{d\theta}ln(\mathcal{L}) = -\frac{n}{\theta} + \frac{1}{\sigma^3}
+  \frac{d}{d\sigma}ln(\mathcal{L}) = -\frac{n}{\sigma} + \frac{1}{\sigma^3}
   \sum_{i = 1}^{n} \left( x_i - \mu \right) ^T \left(x_i - \mu \right) \Rightarrow \\
-  \sigma^2 = \frac{1}{N} \sum_{i = 0}^{N - 1}
+  \sigma^2 = \frac{1}{n} \sum_{i = 0}^{n - 1}
     \left( x_i - \hat{x} \right) \left(x_i - \hat{x} \right)^T
 \end{align}
 
 where $\hat{x}$ is the expected value of $x$.
+
+\subsection{}
+
+\setcounter{section}{2}
+\setcounter{subsection}{0}
+\subsection{}
+\paragraph{a)}
+
+By using the logarithm likelihiid function as above we can estimate $\mu$ as:
+
+\begin{align}
+  \mu = \frac{1}{n} \sum_{i = 1}^{n} x_n
+\end{align}
+
+We can use this $\nu$ to calcualte $\sigma$ as:
+
+\begin{align}
+  \sigma = \frac{1}{n} \sum_{i = 1}^{n} (x_n - \mu)(x_n - \mu)^T
+\end{align}
+
+\paragraph{b, c)}
+See code
+
+\paragraph{d)}
 
 \end{document}
