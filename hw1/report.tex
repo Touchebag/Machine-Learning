@@ -57,13 +57,69 @@ $\frac{d}{d\sigma}ln(\mathcal{L}) = 0$.
 where $\hat{x}$ is the expected value of $x$.
 
 \subsection{}
+\paragraph{a)}
+
+\begin{align*}
+  P(\sigma^2 | \mathbf{x}, \mu) &\propto
+  \prod_{i = 1}^{n} \Bigg( \frac{1}{2\pi\sigma^2}
+    exp{\left( - \frac{(x_i - \mu)^T(x_i - \mu)}{2\sigma^2} \right)} \Bigg) \cdot
+    \left( \frac{\beta_{0}^{\alpha_0}}{\Gamma (\alpha_0)}
+    {\sigma^2}^{- \left( \alpha_0 + 1 \right)}
+    exp \left( - \frac{\beta_0}{\sigma^2} \right) \right) \\
+  &\propto \prod_{i = 1}^{n} \Bigg( \sigma^{-2}
+    exp{\left( - \frac{(x_i - \mu)^T(x_i - \mu)}{2\sigma^2} \right)} \Bigg) \cdot
+    \left( {\sigma^2}^{- \left( \alpha_0 + 1 \right)}
+    exp \left( - \frac{\beta_0}{\sigma^2} \right) \right) \\
+  &= \sigma^{-2n} exp \left( - \sum_{i = 1}^{n}
+    \frac{(x_i - \mu)^T(x_i - \mu)}{2\sigma^2} \right) \cdot
+    {\sigma^2}^{- \left( \alpha_0 + 1 \right)}
+    exp \left( - \frac{\beta_0}{\sigma^2} \right) \\
+  &= {\sigma^2}^{- \left( n + \alpha_0 + 1 \right)}
+    exp \Bigg( - \left( \frac{\beta_0}{\sigma^2} + \frac{\sum_{i = 1}^{n}
+    (x_i - \mu)^T(x_i - \mu)}{2\sigma^2} \right) \Bigg) \\
+  &= {\sigma^2}^{- \left( n + \alpha_0 + 1 \right)}
+    exp \left( - \frac{\beta_0 + \frac{\sum_{i = 1}^{n}
+    (x_i - \mu)^T(x_i - \mu)}{2}}{\sigma^2} \right)
+\end{align*}
+
+From this we can derive $\alpha_1$ and $\beta_1$ as:
+
+\begin{align*}
+  \alpha &= \alpha_0 + n \\
+  \beta  &= \beta_0 + \frac{\sum_{i = 1}^{n} (x_i - \mu)^T(x_i - \mu)}{2}
+\end{align*}
+
+Which gives us a posterior distribution of
+
+\begin{align*}
+  \text{invgamma} \left( \alpha_0 + n, \beta_0 +
+  \frac{\sum_{i = 1}^{n} (x_i - \mu)^T(x_i - \mu)}{2} \right)
+\end{align*}
+
+\paragraph{b)}
+
+The Bayes factor $K$ is given by
+
+\begin{align*}
+  K &= \frac{P \left( D \vert M_a \right)}{P \left( D \vert M_b \right)} \\
+  &= \frac{ \int P \left( \theta_a \vert M_A \right) P \left( D \vert \theta_a , M_A \right) d \theta_a}
+  { \int P \left( \theta_b \vert M_B \right) P \left( D \vert \theta_b , M_B \right) d \theta_b} \\
+  &= \frac{ \int \frac{\beta_{a}^{\alpha_a}}{\Gamma (\alpha_a)}
+    {\sigma^2}^{-(\alpha_a + 1)} exp \left( - \frac{\beta_a}{\sigma^2} \right)
+    \frac{1}{2\pi\sigma^2}
+    exp{\left( - \frac{(x_i - \mu)^T(x_i - \mu)}{2\sigma^2} \right)}}
+    { \int \frac{\beta_{b}^{\alpha_b}}{\Gamma (\alpha_b)}
+    {\sigma^2}^{-(\alpha_b + 1)} exp \left( - \frac{\beta_b}{\sigma^2} \right)
+    \frac{1}{2\pi\sigma^2}
+    exp{\left( - \frac{(x_i - \mu)^T(x_i - \mu)}{2\sigma^2} \right)}}
+\end{align*}
 
 \setcounter{section}{2}
 \setcounter{subsection}{0}
 \subsection{}
 \paragraph{a)}
 
-By using the logarithm likelihiid function as above we can estimate $\mu$ as:
+By using the logarithm likelihood function as above we can estimate $\mu$ as:
 
 \begin{align}
   \mu = \frac{1}{n} \sum_{i = 1}^{n} x_n
