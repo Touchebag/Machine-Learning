@@ -80,6 +80,19 @@ The final probablity becomes
 
 \subsection{}
 
+With naive Bayes we assume that the features are independent but we are not
+expecting them to be. This is usually not a problem. In this case, however,
+$x_1, x_2$ and $x_3$ are not just dependent, they represent the same feature.
+They are completely defined by each other.
+
+This means that we cannot for instance classify the potential invector
+$\mathbf{x} = (1, 1, 0, 0)$ since a person cannot be both younger than $20$ and
+between $20$ and $30$.
+
+A solution to this would be to combine those three features into one
+categorical feature with three possible values. Now we have a vector with just
+two features and we can use naive Bayes with a multinoulli distribution.
+
 \setcounter{section}{2}
 \setcounter{subsection}{0}
 \subsection{}
