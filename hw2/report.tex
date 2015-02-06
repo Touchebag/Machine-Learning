@@ -105,5 +105,26 @@ two features and we can use naive Bayes with a multinoulli distribution.
 \setcounter{subsection}{0}
 \subsection{}
 
+\paragraph{a)}
+
+Bayes' theorem gives us the same formula as $(1)$.
+
+\begin{align}
+  P\left( t_{new} = 1 \vert \mathbf{X}, \mathbf{t}, \mathbf{x}_{new} \right)
+  = \frac{P \left( \mathbf{x}_{new} \vert t_{new} = 1, \mathbf{X}, \mathbf{t} \right) P \left( t_{new} = 1 \right)}{ \sum_j P \left( \mathbf{x}_{new} \vert t_{new} = j, \mathbf{X}, \mathbf{t} \right) P \left( t_{new} = j \right) }
+\end{align}
+
+Again we have the same prior for all classes so the $P(t_{new} = x)$ terms can
+be canceled out against each other. The likelihood function $P(\mathbf{x}_{new}
+\vert t_{new} = i, \mathbf{X}, \mathbf{y}) = P(\mathbf{x}_{new} \vert
+\hat{\mu}_i, \hat{\sigma}_i^2)$ can be written as $\prod_{d = 1}^{2}
+\mathcal{N}(\hat{\mu}_{id}, \hat{\sigma^2}_{id})$.
+
+\paragraph{b,c)}
+
+See code.
+
+\paragraph{d)}
+
 \subsection{}
 \end{document}
