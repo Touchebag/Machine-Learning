@@ -2,6 +2,10 @@
 **/*.aux
 **/*.log
 **/*.pdf
+**/*.dvi
+**/*.fls
+**/*.fdb_latexmk
+**/*.ps
 
 **/*.rar
 **/*.zip
