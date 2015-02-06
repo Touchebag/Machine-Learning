@@ -14,14 +14,10 @@
 
 \title{Machine Learning Homework 2}
 
-% \lhead{Robin Touche 900610-3270}
-% \rhead{robint@student.chalmers.se}
-
 \begin{document}
 
 \maketitle
 
-\chapter{Homework 2}
 \setcounter{section}{1}
 \subsection{}
 \paragraph{a)}
@@ -64,19 +60,31 @@ So the final probability that this person is content thus becomes
 
 \paragraph{b)}
 
-We can calculate this the same way as in $a)$. The only difference is that the
-probability for $\mathbf{x}_{new}$ being content (or not content) now becomes
-the probability of that person being healthy and content plus the probability
-of that person not being healty but content.
-
-In this case this is equivalent to us simply ignoring the ''healthy'' variable
-and just doing te calculation on the remaining two.
-
-The final probablity becomes
+To calculates this we need to add the posterior of each case (\emph{i.e.} when
+$x_3 = 0$ and when $x_3 = 1$) times the probability of that case ocurring in
+the first place.
 
 \begin{align}
-  \frac{\frac{1}{8}}{\frac{1}{8} + \frac{3}{16}} = \frac{2}{5}
+  P\left( t_{new} = 1 \vert \mathbf{X}, \mathbf{t}, \mathbf{x}_{new} = (0, 1, 0) \right) P \left( x_3 = 0  \vert x_1, x_2 \right) \cdot \\
+  \notag P\left( t_{new} = 1 \vert \mathbf{X}, \mathbf{t}, \mathbf{x}_{new} = (0, 1, 1) \right) P \left( x_3 = 1  \vert x_1, x_2 \right)
 \end{align}
+
+The probability of $x_3$ being either $1$ or $0$ given the other two is
+$\frac{1}{2}$ since we assume that all variables are independent. We then calculate the probability as in $1.1$ and get the answer $\frac{14}{33}$.
+
+% We can calculate this the same way as in $a)$. The only difference is that the
+% probability for $\mathbf{x}_{new}$ being content (or not content) now becomes
+% the probability of that person being healthy and content plus the probability
+% of that person not being healty but content.
+%
+% In this case this is equivalent to us simply ignoring the ''healthy'' variable
+% and just doing the calculation on the remaining two.
+%
+% The final probablity becomes
+%
+% \begin{align}
+%   \frac{\frac{1}{8}}{\frac{1}{8} + \frac{3}{16}} = \frac{2}{5}
+% \end{align}
 
 \subsection{}
 
