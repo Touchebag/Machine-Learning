@@ -29,10 +29,10 @@ Using Bayes' theorem we can calculate the probability $P\big(C = 1 \vert (0, 1, 
   = \frac{P \left( \mathbf{x}_{new} \vert t_{new} = 1, \mathbf{X}, \mathbf{t} \right) P \left( t_{new} = 1 \right)}{ \sum_j P \left( \mathbf{x}_{new} \vert t_{new} = j, \mathbf{X}, \mathbf{t} \right) P \left( t_{new} = j \right) }
 \end{align}
 
-We chose the prior $P ( t_{new} = 1 )$ as $\frac{1}{2}$ since we have any
+We chose the prior $P ( t_{new} = 1 )$ as $\frac{1}{2}$ since we do not have any
 domain knowledge.
 
-Since we have binary features we can use the Bernoulli product model to
+The features are binary so we can use the Bernoulli product model to
 calculate the likelihood as
 
 \begin{align}
@@ -44,15 +44,15 @@ where $P_i$ is the probability of feature $x_i$ is in class $t_{new} = 1$
 given in the assignment this calcualtes to $\frac{1}{4} \cdot \frac{1}{2} \cdot
 \frac{3}{4} = \frac{3}{32}$
 
-Since we chose a prior as a uniform $\frac{1}{2}$ the terms in the numerator
-and denominator cancels out and the denomimator simply becomes the total
+Since the prior is uniform with probability $\frac{1}{2}$ the terms in the numerator
+and denominator cancel out and the denomimator simply become the total
 probability of vector $\mathbf{x}$ appearing in any class which calculates to
 
 \begin{align}
   \frac{1}{4} \cdot \frac{1}{2} \cdot \frac{3}{4} + \frac{3}{4} \cdot \frac{1}{4} \cdot \frac{1}{4}  = \frac{3}{32} + \frac{3}{64} = \frac{9}{64}
 \end{align}
 
-So the final probability that this person is content thus becomes
+The final probability that this person is content thus become
 
 \begin{align}
   \frac{\frac{3}{32}}{\frac{9}{64}} = \frac{2}{3}
@@ -60,7 +60,7 @@ So the final probability that this person is content thus becomes
 
 \paragraph{b)}
 
-To calculates this we need to add the posterior of each case (\emph{i.e.} when
+To calculate this we need to add the posterior of each case (\emph{i.e.} when
 $x_3 = 0$ and when $x_3 = 1$) times the probability of that case ocurring in
 the first place.
 
@@ -69,7 +69,7 @@ the first place.
   \notag P\left( t_{new} = 1 \vert \mathbf{X}, \mathbf{t}, \mathbf{x}_{new} = (0, 1, 1) \right) P \left( x_3 = 1  \vert x_1, x_2 \right)
 \end{align}
 
-The probability of $x_3$ being either $1$ or $0$ given the other two is
+The probability of $x_3$ being either $1$ or $0$ given the other two features is
 $\frac{1}{2}$ since we assume that all variables are independent. We then calculate the probability as in $1.1$ and get the answer $\frac{14}{33}$.
 
 % We can calculate this the same way as in $a)$. The only difference is that the
@@ -88,12 +88,12 @@ $\frac{1}{2}$ since we assume that all variables are independent. We then calcul
 
 \subsection{}
 
-With naive Bayes we assume that the features are independent but we are not
-expecting them to be. This is usually not a problem. In this case, however,
-$x_1, x_2$ and $x_3$ are not just dependent, they represent the same feature.
-They are completely defined by each other.
+Naive Bayes assume that the features are independent but we do not
+expect them to be. This is usually not a problem. In this case, however,
+$x_1, x_2$ and $x_3$ are not just dependent, they represent the same data.
+They are defined by each other.
 
-This means that we cannot for instance classify the potential invector
+This means that we cannot for instance classify the potential input-vector
 $\mathbf{x} = (1, 1, 0, 0)$ since a person cannot be both younger than $20$ and
 between $20$ and $30$.
 
@@ -114,8 +114,7 @@ Bayes' theorem gives us the same formula as $(1)$.
   = \frac{P \left( \mathbf{x}_{new} \vert t_{new} = 1, \mathbf{X}, \mathbf{t} \right) P \left( t_{new} = 1 \right)}{ \sum_j P \left( \mathbf{x}_{new} \vert t_{new} = j, \mathbf{X}, \mathbf{t} \right) P \left( t_{new} = j \right) }
 \end{align}
 
-Again we have the same prior for all classes so the $P(t_{new} = x)$ terms can
-be canceled out against each other. The likelihood function $P(\mathbf{x}_{new}
+Again we have the same prior for all classes so the $P(t_{new} = x)$ terms cancel out each other. The likelihood function $P(\mathbf{x}_{new}
 \vert t_{new} = i, \mathbf{X}, \mathbf{y}) = P(\mathbf{x}_{new} \vert
 \hat{\mu}_i, \hat{\sigma}_i^2)$ can be written as $\prod_{d = 1}^{2}
 \mathcal{N}(\hat{\mu}_{id}, \hat{\sigma^2}_{id})$.
