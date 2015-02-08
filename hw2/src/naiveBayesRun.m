@@ -19,7 +19,8 @@ splitSet = reshape(seq, [], 1, 5);
 %setdiff(A,B) returns the data in A that is not in B.
 
 %Loop over each set in splitSet as the test set
-numWrong = 0;
+numWrongSph = 0;
+numWrongNew = 0;
 for i = 1:5
    testData = data.x(splitSet(:,1,i),:);
    testLabels = data.y(splitSet(:,1,i));
@@ -30,11 +31,17 @@ for i = 1:5
    %implement for new_classifier
    trainingParam.x = trainingData;
    trainingParam.y = trainingLabels;
+   trainingMu1 = mean(trainingData(trainingLabels == 1, :));
+   trainingMu2 = mean(trainingData(trainingLabels == -1, :));
+   
    for j = 1:size(testData,1)
        [P1, P2, Ylabel] = sph_bayes(testData(j,:),trainingParam);
-       % do this for new_classifier as well.
+       [Ylabel2] = new_classifier(testData(j,:), trainingMu1, trainingMu2);
        if Ylabel ~=  testLabels(j)
-           numWrong = numWrong + 1;
+           numWrongSph = numWrongSph + 1;
+       end
+       if Ylabel2 ~= testLabels(j)
+           numWrongNew = numWrongNew + 1;
        end
    end
    
