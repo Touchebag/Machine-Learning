@@ -21,5 +21,5 @@ like2 = prod(normpdf(Xtest, mu2, sigma2));
 % Calculate probability for class 1 and 2. Classify xnew with label.
 P1 = like1 / (like1 + like2);
 P2 = like2 / (like2 + like1);
-Ytest = (-1)^(P1 < P2)
+Ytest = (-1)^(P1 < P2);
 end
