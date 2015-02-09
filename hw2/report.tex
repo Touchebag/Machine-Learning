@@ -119,13 +119,13 @@ Again we have the same prior for all classes so the $P(t_{new} = x)$ terms cance
 \hat{\mu}_i, \hat{\sigma}_i^2)$ can be written as $\prod_{d = 1}^{2}
 \mathcal{N}(\hat{\mu}_{id}, \hat{\sigma}^2_{id})$.
 
-\paragraph{b,c)}
+\paragraph{b, c)}
 
 See code.
 
 \paragraph{d)}
 
-Run problem21.m
+Run problem21.m. Both classifiers passed the test without errors.
 
 \subsection{}
 
@@ -135,13 +135,21 @@ See code.
 
 \paragraph{c)}
 
-Run problem22.m
+Run problem22.m. See table 1 for our results. From reading the
+table it seems that calculating the variance is not beneficial. $\sim95\%$
+prediction rate vs $\sim75\%$.
 
-\paragraph{d)}
-
-\begin{tabular}{c | c | c)
-  
-\end{tabular}
-
+\begin{table}
+  \begin{tabular}{c | c | c | c | c}
+    Test \# & Original data (5) & Orig (8) & Scaled data (5) & Scaled (8)\\
+    \hline
+    1 & 212 & 197 & 172 & 180\\
+    2 & 213 & 208 & 160 & 175\\
+    3 & 210 & 208 & 159 & 167\\
+    4 & 213 & 200 & 180 & 158\\
+    5 & 215 & 202 & 165 & 172\\
+  \end{tabular}
+\caption{The number of correct predictions for each set of data}
+\end{table}
 
 \end{document}
