@@ -21,6 +21,11 @@ splitSet = reshape(seq, [], 1, 5);
 numWrongSph = 0;
 numWrongNew = 0;
 
+% Arrays to hold correct predictions for each split.
+numCorrectSph = [];
+numCorrectNew = [];
+
+
 % 5-fold crossvalidation. Each loop-iteration takes a new split of the data
 % set as the test set and use the other 4 data sets as training for the two
 % classifier functions.
@@ -28,36 +33,43 @@ for i = 1:5
    % Extract current iterations test data and labels.
    testData = data.x(splitSet(:,1,i),:);
    testLabels = data.y(splitSet(:,1,i));
-   
+
    % Get indices for training data and labels.
    trainingIndices = setdiff(seq, splitSet(:,1,i));
    trainingData = data.x(trainingIndices,:);
    trainingLabels = data.y(trainingIndices);
-   
-   % Make input parameter of training data and labels for sph_bayes. 
+
+   % Make input parameter of training data and labels for sph_bayes.
    trainingParam.x = trainingData;
    trainingParam.y = trainingLabels;
-   
+
    % Compute mu1 and mu2 of training data and labels for new_classifier.
    trainingMu1 = mean(trainingData(trainingLabels == 1, :));
    trainingMu2 = mean(trainingData(trainingLabels == -1, :));
-   
+
    % test each observation from current test set and match against actual
    % label to meassure performance.
    for j = 1:size(testData,1)
-       
+
        % Run classifiers for current test observation.
        [P1, P2, Ylabel] = sph_bayes(testData(j,:),trainingParam);
        [Ylabel2] = new_classifier(testData(j,:), trainingMu1, trainingMu2);
-       
+
        % If sph_bayes classified wrong, increase fail counter.
        if Ylabel ~=  testLabels(j)
            numWrongSph = numWrongSph + 1;
        end
-       
+
        % If new_classifier classified wrong, increase fail counter.
        if Ylabel2 ~= testLabels(j)
            numWrongNew = numWrongNew + 1;
        end
    end
+   % Add number of correct predictions to corresponding counter array
+   numCorrectSph = [numCorrectSph, numWrongSph];
+   numCorrectNew = [numCorrectNew, numWrongNew];
 end
+
+printf('Sph_Bayes errors:\n%s\n', num2str(numCorrectSph));
+printf('New_Classifier errors:\n%s\n', num2str(numCorrectNew));
+
