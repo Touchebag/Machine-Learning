@@ -3,6 +3,7 @@
 \usepackage{fancyhdr}
 \usepackage{mathtools}
 \usepackage{amsmath}
+\usepackage{amsfonts}
 
 \pagestyle{fancy}
 
@@ -22,8 +23,23 @@
 \subsection{}
 \paragraph{a)}
 
+Since we have a normal distribution the random variable can take on any real
+value. Thus the state space is $\mathbb{R}^2$.
+
 \paragraph{b)}
 
+% $(X_1, X_2 = x_2) = \mathcal{N} \left( \mu_1 + \frac{\sigma_1}{\sigma_2}\rho \left( x_2 - \mu_2 \right), \left( 1 - \rho^2 \right) \sigma_1^2 \right)$ 
+
 \paragraph{c)}
+
+TODO
+
+For each iteration we calculate the conditional probability of $(X_1 \vert X_2
+= x_2)$, which becomes a normal distribution. Then we take a random sample from
+this distribution which we will call $x_1$.
+
+The next iteration we instead calculate and sample from $(X_2 \vert X_1 = x_1)$
+with the $x_1$ we just aquired and set this sample as $x_2$ for the next
+iteration where we repeat the prevoius step.
 
 \end{document}
