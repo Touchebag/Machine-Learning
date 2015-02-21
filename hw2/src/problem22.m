@@ -77,7 +77,7 @@ for i = 1:5
    numOrigCorrect8 = [numOrigCorrect8, testOrigCorrect8];
 end
 
-printf('Variance correct (5):\n%s\n', num2str(numCorrect5));
-printf('Variance correct (8):\n%s\n', num2str(numCorrect8));
-printf('Original correct (5):\n%s\n', num2str(numOrigCorrect5));
-printf('Original correct (8):\n%s\n', num2str(numOrigCorrect8));
+fprintf('Variance correct (5):\n%s\n', num2str(numCorrect5));
+fprintf('Variance correct (8):\n%s\n', num2str(numCorrect8));
+fprintf('Original correct (5):\n%s\n', num2str(numOrigCorrect5));
+fprintf('Original correct (8):\n%s\n', num2str(numOrigCorrect8));

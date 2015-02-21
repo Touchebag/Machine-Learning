@@ -70,6 +70,6 @@ for i = 1:5
    numCorrectNew = [numCorrectNew, numWrongNew];
 end
 
-printf('Sph_Bayes errors:\n%s\n', num2str(numCorrectSph));
-printf('New_Classifier errors:\n%s\n', num2str(numCorrectNew));
+fprintf('Sph_Bayes errors:\n%s\n', num2str(numCorrectSph));
+fprintf('New_Classifier errors:\n%s\n', num2str(numCorrectNew));
 
