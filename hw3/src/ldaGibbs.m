@@ -25,11 +25,11 @@
 % -------------------------------------------------------------------
 
 function [beta, theta] = ldaGibbs(data, nTopics, alpha, eta, ...
-    nIt, nReadIt, nBurnIn, nWords)
+    nIt, nReadIt, nBurnIn, instanceWords)
 
 % --- Variable declaration
 nDocuments = length(data);
-beta = zeros(nTopics,nWords);
+beta = zeros(nTopics,instanceWords);
 theta = zeros(nDocuments,nTopics);
 
 % ------- BELOW, YOU SHOULD IMPLEMENT THE GIBBS SAMPLER -------------
@@ -37,10 +37,39 @@ theta = zeros(nDocuments,nTopics);
 
 
 % --- Initialization
+% number of word instances.
+wordArray  = [];
+instanceWords = 0;
+for i = 1:nDocuments
+   for j = 1:length(data{i}.id)
+       instanceWords = instanceWords + data{i}.cnt(j);
+       for k = 1:data{i}.cnt(j);            
+          wordArray = [wordArray; [i, data{i}.id(j)]];
+       end
+   end
+end
 
+% Initialize z
+z = randi([1,nTopics], length(instanceWords, 1),1);
 
 % --- Inference, sampling Z
 
-        
-% --- Estimate parameters, beta, theta
+for a = 1:instanceWords 
+   maxProb = 0;
+   for j = 1:nTopics
+      njWi   = 0 % # times word wi got assigned to topic j
+      for x = 1:instanceWords
+         if a ~= x & wordArray(a,2) == wordArray(x,2) & z[x] == j
+             njWi = njWi + 1;
+         end
+      end
+      
+      njAll  = 0 % words assigned to topic j
+      njDi   = 0 % words in document di with topic j
+      nDiAll = 0 % words in document di
+      
+   end
+end
 
+% --- Estimate parameters, beta, theta
+end
