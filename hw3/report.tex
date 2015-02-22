@@ -56,8 +56,13 @@ $$ P(Z_i = k | Z_{\neg i}, W) \propto P(w_i | z_i = k, z_{\neg i}, w_{\neg i})P(
 
 So the first term on the right hand side is the likelihood function and the second term is the prior. Then by integrating the first term over $\beta$ we end up with;
 
-$$P(w_i | z_i = j, z_{\neg i}, w_{\neg i}) = \frac{ N^{w_i}_{k,\neg i} + \eta }{V\eta + \sum_{w^{\theta}=1}^V N^{w^\theta}_{k, \neg i}  $$
+$$P(w_i | z_i = j, z_{\neg i}, w_{\neg i}) = \frac{ N^{w_i}_{k,\neg i} + \eta }{V\eta + \sum_{w^{\theta}=1}^V N^{w^\theta}_{k, \neg i}}  $$
 
+which is the first part of equation one in the assignment description. In similar way but when integrating over $\theta$ we get the following expression for term two in equation one.
+
+$$P(z_i = k | z_{\neg i}) = \frac{\alpha + M^{k}_{d,\neg i}}{T\alpha + \sum_{k^\theta=1}^T M^k_{d, \neg i} } $$
+
+As we see we end up with equation two if we replace the right hand side with the corresponding equations stated above.
 \paragraph{b}
 
 $\beta$ represents what words related to each topic. For a given topic k,
