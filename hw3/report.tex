@@ -50,6 +50,14 @@ See code.
 \subsection*{2.2}
 
 \paragraph{a}
+
+Equation one in the assignment description is the conditional posterior distribution that looks as follows.
+$$ P(Z_i = k | Z_{\neg i}, W) \propto P(w_i | z_i = k, z_{\neg i}, w_{\neg i})P(z_i = k | z_{\neg i })$$
+
+So the first term on the right hand side is the likelihood function and the second term is the prior. Then by integrating the first term over $\beta$ we end up with;
+
+$$P(w_i | z_i = j, z_{\neg i}, w_{\neg i}) = \frac{ N^{w_i}_{k,\neg i} + \eta }{V\eta + \sum_{w^{\theta}=1}^V N^{w^\theta}_{k, \neg i}  $$
+
 \paragraph{b}
 
 $\beta$ represents what words related to each topic. For a given topic k,
