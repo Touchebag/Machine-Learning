@@ -48,13 +48,14 @@ for i = 1:nDocuments
        end
    end
 end
+instanceWords
 % Initialize z
 z = randi([1,nTopics], instanceWords,1);
 readOutCount = nBurnIn;
 
 % --- Inference, sampling Z
 for iteration = 1:nIt
-    
+    iteration
     for a = 1:instanceWords 
        probTopic = zeros(nTopics, 1);
        for j = 1:nTopics
