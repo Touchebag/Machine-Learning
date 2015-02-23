@@ -86,7 +86,11 @@ for iteration = 1:nIt
     if rdCntDwn < 1
         for t = 1:nTopics
            for w = 1:length(data{d}.id)
-              beta(t,w) = (N(data{d}.id(w),t) + eta) / (sum(N(:,t)) + eta*nWords); % should nWords be number of words in document d instead?
+               betaNTemp = 0;
+               for d = 1:nDocuments
+                    betaNTemp = betaNTemp + N(data{d}.id(w),t);
+               end
+              beta(t,w) = (betaNTemp + eta) / (sum(N(:,t)) + eta*nWords); % should nWords be number of words in document d instead?
            end
            for d = 1:nDocuments
                theta(d,t) = (M(d, t) + alpha) / (sum(M(d,:)) + nTopics*alpha);
