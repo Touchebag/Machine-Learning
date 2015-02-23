@@ -34,8 +34,8 @@ theta = zeros(nDocuments,nTopics);
 
 
 % --- Initialization
-N = zeros(nWords, nTopics); % skip excluding in this step?
-M = zeros(nDocuments, nTopics); % skip excluding in this step?
+N = zeros(nWords, nTopics);
+M = zeros(nDocuments, nTopics);
 Z = ones(nDocuments, nWords)*(-1); % Initialize topic to -1 for words that is not part of the document.
 for d = 1:nDocuments
     for w = 1: length(data{d}.id)
@@ -90,7 +90,7 @@ for iteration = 1:nIt
                for d = 1:nDocuments
                     betaNTemp = betaNTemp + N(data{d}.id(w),t);
                end
-              beta(t,w) = (betaNTemp + eta) / (sum(N(:,t)) + eta*nWords); % should nWords be number of words in document d instead?
+              beta(t,data{d}.id(w)) = (betaNTemp + eta) / (sum(N(:,t)) + eta*nWords);
            end
            for d = 1:nDocuments
                theta(d,t) = (M(d, t) + alpha) / (sum(M(d,:)) + nTopics*alpha);
