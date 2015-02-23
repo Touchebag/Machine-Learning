@@ -29,17 +29,23 @@ value. Thus the state space is $\mathbb{R}^2$.
 \paragraph{b)}
 
 The conditional distribution of $x_1$ and $x_2$ is normal as well with
-$p(x_1|x_2) = N(1 - \frac{1}{2}(x_2 - 1))$. For $x_2$ 
+$p(x_2|x_1) = N(1 - \frac{1}{2}(x_2 - 1), \frac{3}{4})$. For $x_1$ given $x_2$ 
 the formula is the same, just switched indexes. 
 Now to show this we need the joint density of $x$ namely.
-      
+     
+$$ f(x_1, x_2) = \frac{1}{(2\pi)^{n/2|\Sigma|^{1/2}}}exp[-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)] = \frac{1}{(2\pi)^{n/2|\Sigma|^{1/2}}}exp[-\frac{1}{2}Q(x_1,x_2)]$$
+
+
 We substitute $(x-\mu)^T\Sigma^{-1}(x-\mu)$ with $Q(x_1,x_2)$. 
 Now by some matrix computations on $Q(x_1,x_2)$ we can rewrite this to 
-$(x_1 - \mu_1)^T\Sigma_{11}^{-1}(x_1 - \mu_1) +
-[(x_2 - \mu_2) - \Sigma^T_{12}\Sigma^{-1}_11(x_1 - \mu_1)]^T$
-$(\Sigma_{22} - \Sigma^T_{12}\Sigma_{11}^{-1}\Sigma_{12})^{-1}
-[(x_2 - \mu_2) - \Sigma^T_{12}\sigma^{-1}_{11}(x_1 - \mu_1)]$ 
-
+\begin{equation*}
+  \begin{split}
+(x_1 - \mu_1)^T\Sigma_{11}^{-1}(x_1 - \mu_1) + \\
+[(x_2 - \mu_2) - \Sigma^T_{12}\Sigma^{-1}_{11}(x_1 - \mu_1)]^T \\
+(\Sigma_{22} - \Sigma^T_{12}\Sigma_{11}^{-1}\Sigma_{12})^{-1} \\
+[(x_2 - \mu_2) - \Sigma^T_{12}\Sigma^{-1}_{11}(x_1 - \mu_1)] \\
+\end{split}
+\end{equation*}
 We let $$ b \triangleq \mu_2 + \Sigma^T_{12}\Sigma_{11}^{-1}(x_1 - \mu_1) $$
 
 $$ A \triangleq \Sigma_{22} - \Sigma_{12}^T\Sigma_{11}^{-1}\Sigma_{12}$$
@@ -48,7 +54,7 @@ $$Q_2(x_1,x_2) \triangleq (x_2 - b)^TA^{-1}(x_2 - b)$$
 so $Q(x_1,x_2)$ can now be expressed as
 $$Q(x_1,x_2) = Q_1(x_1) + Q_2(x_1,x_2)$$
 
-We can the wite the joint distribution as
+We can then write the joint distribution as
 \begin{equation*}
   \begin{split}
  f(x_1,x_2) = \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}}exp[-\frac{1}{2}Q(x_1,x_2)] \\ 
@@ -63,8 +69,11 @@ $$f(x_2|x_1) = \frac{f(x_1,x_2)}{f(x_1)} \\
 
 If we use the values given in the assignment we get
 $$ b = 1 -\frac{1}{2}(x_1 - 1) $$
-$$ A = \frac{1}{2}$$ 
+$$ A = \frac{3}{4}$$ 
 
+So the conditional distribution for $x_2$ given $x_1$ is
+
+$p(x_2|x_1) = N(1 - \frac{1}{2}(x_1 - 1), \frac{3}{4})$. For $x_1$ given $x_2$ 
 
               % $(X_1, X_2 = x_2) = \mathcal{N} \left( \mu_1 + \frac{\sigma_1}{\sigma_2}\rho \left( x_2 - \mu_2      \right), \left( 1 - \rho^2 \right) \sigma_1^2 \right)$ 
 
