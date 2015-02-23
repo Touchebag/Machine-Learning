@@ -19,8 +19,7 @@
 
 \maketitle
 
-\setcounter{section}{1}
-\subsection{}
+\subsection*{1.1}
 \paragraph{a)}
 
 Since we have a normal distribution the random variable can take on any real
@@ -32,17 +31,20 @@ value. Thus the state space is $\mathbb{R}^2$.
 
 \paragraph{c)}
 
-% TODO
-%
-% For each iteration we calculate the conditional probability of $(X_1 \vert X_2
-% = x_2)$, which becomes a normal distribution. Then we take a random sample from
-% this distribution which we will call $x_1$.
-%
-% The next iteration we instead calculate and sample from $(X_2 \vert X_1 = x_1)$
-% with the $x_1$ we just aquired and set this sample as $x_2$ for the next
-% iteration where we repeat the prevoius step.
+The marginal distributions are Gaussian as well. To sample from a normal
+distribution ($\emph{i.e.}$ with $\mu = 0$ and $\sigma^2 = 1$) we can for
+instance use the Box-Muller method. Which states that, given two values, u and
+v, uniformly distributed between $0$ and $1$, we can obtain a normally
+distributed value x as:
 
-\setcounter{section}{2}
+\begin{equation}
+  x = \sqrt{-2 \ln u } \cdot \cos \left(2 \pi v \right)
+\end{equation}
+
+Alternatively, $\sin$ instead of $\cos$ gives another value. \newline
+Now that we have this normally distributed value we can scale this to the
+gaussian distribution as $\sigma x + \mu$.
+
 \subsection*{2.1}
 
 See code.
