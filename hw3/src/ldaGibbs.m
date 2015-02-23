@@ -85,18 +85,24 @@ for iteration = 1:nIt
     % check if we should read beta and theta.
     if rdCntDwn < 1
         for t = 1:nTopics
-           for w = 1:length(data{d}.id)
-               betaNTemp = 0;
-               for d = 1:nDocuments
-                    betaNTemp = betaNTemp + N(data{d}.id(w),t);
-               end
-              beta(t,data{d}.id(w)) = (betaNTemp + eta) / (sum(N(:,t)) + eta*nWords);
-           end
-           for d = 1:nDocuments
+            for w = 1:nWords
+                betaNTemp = 0;
+                for di = 1:nDocuments
+                   for wi = 1:length(data{di}.id)
+                       if data{di}.id(wi) == w && Z(di, data{di}.id(wi)) == t
+                            betaNTemp = betaNTemp + data{di}.cnt(wi);
+                       end
+                   end
+                end
+                beta(t,w) = (betaNTemp + eta) / (sum(N(:,t)) + eta*nWords);
+            end
+            for d = 1:nDocuments
                theta(d,t) = (M(d, t) + alpha) / (sum(M(d,:)) + nTopics*alpha);
-           end
+            end
         end
         rdCntDwn = nReadIt;
+        beta
+        theta
     else
         rdCntDwn = rdCntDwn - 1;
     end
