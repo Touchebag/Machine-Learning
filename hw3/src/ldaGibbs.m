@@ -79,12 +79,16 @@ for iteration = 1:nIt
                 end
                 probTopic(t) = (eta + ntw)/(nWords*eta + ntwa) * (alpha + mdt) / (nTopics*alpha + mdta);
             end
+            
+            % SOMETHING WRONG WITH THESE UPDATES, WE GET NEGATIVE VALUES ON
+            % SOME INDEXES IN N & M.
             newT = randsample(nTopics, 1, true, probTopic);
             newT
-            N(data{d}.cnt(w),t) = N(data{d}.cnt(w),t) - data{d}.cnt(w); %something wrong   % UPDATES SHOULD NOT BE WITH W, but rather with data{d}.id(w)!!!!!
-            N(data{d}.cnt(w),newT) = N(data{d}.cnt(w),newT) + data{d}.cnt(w);
+            N(data{d}.id(w),t) = N(data{d}.id(w),t) - data{d}.cnt(w); %something wrong   % UPDATES SHOULD NOT BE WITH W, but rather with data{d}.id(w)!!!!!
+            N(data{d}.id(w),newT) = N(data{d}.id(w),newT) + data{d}.cnt(w);
             M(d,t) = M(d,t) - data{d}.cnt(w); %  wrong
             M(d,newT) = M(d,newT) + data{d}.cnt(w);
+            Z(d,w) = newT;
         end
     end
     % check if we should read beta and theta.
