@@ -76,6 +76,5 @@ for d = 1:nDocuments
         % sample zi and update M & N.
     end
     d
-end
-            
+end         
 end
