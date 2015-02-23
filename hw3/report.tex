@@ -28,19 +28,19 @@ value. Thus the state space is $\mathbb{R}^2$.
 
 \paragraph{b)}
 
-% $(X_1, X_2 = x_2) = \mathcal{N} \left( \mu_1 + \frac{\sigma_1}{\sigma_2}\rho \left( x_2 - \mu_2 \right), \left( 1 - \rho^2 \right) \sigma_1^2 \right)$ 
+% $(X_1, X_2 = x_2) = \mathcal{N} \left( \mu_1 + \frac{\sigma_1}{\sigma_2}\rho \left( x_2 - \mu_2 \right), \left( 1 - \rho^2 \right) \sigma_1^2 \right)$
 
 \paragraph{c)}
 
-TODO
-
-For each iteration we calculate the conditional probability of $(X_1 \vert X_2
-= x_2)$, which becomes a normal distribution. Then we take a random sample from
-this distribution which we will call $x_1$.
-
-The next iteration we instead calculate and sample from $(X_2 \vert X_1 = x_1)$
-with the $x_1$ we just aquired and set this sample as $x_2$ for the next
-iteration where we repeat the prevoius step.
+% TODO
+%
+% For each iteration we calculate the conditional probability of $(X_1 \vert X_2
+% = x_2)$, which becomes a normal distribution. Then we take a random sample from
+% this distribution which we will call $x_1$.
+%
+% The next iteration we instead calculate and sample from $(X_2 \vert X_1 = x_1)$
+% with the $x_1$ we just aquired and set this sample as $x_2$ for the next
+% iteration where we repeat the prevoius step.
 
 \setcounter{section}{2}
 \subsection*{2.1}
@@ -51,18 +51,32 @@ See code.
 
 \paragraph{a}
 
-Equation one in the assignment description is the conditional posterior distribution that looks as follows.
-$$ P(Z_i = k | Z_{\neg i}, W) \propto P(w_i | z_i = k, z_{\neg i}, w_{\neg i})P(z_i = k | z_{\neg i })$$
+Equation (1) in the assignment description is the conditional posterior
+distribution that looks as follows.
 
-So the first term on the right hand side is the likelihood function and the second term is the prior. Then by integrating the first term over $\beta$ we end up with;
+\begin{equation*}
+P(Z_i = k \vert Z_{\neg i}, W) \propto P(w_i \vert z_i = k, z_{\neg i}, w_{\neg i})P(z_i = k \vert z_{\neg i })
+\end{equation*}
 
-$$P(w_i | z_i = j, z_{\neg i}, w_{\neg i}) = \frac{ N^{w_i}_{k,\neg i} + \eta }{V\eta + \sum_{w^{\theta}=1}^V N^{w^\theta}_{k, \neg i}}  $$
+So the first term on the right hand side is the likelihood function and the
+second term is the prior. Then by integrating the first term over $\beta$ we
+end up with;
 
-which is the first part of equation one in the assignment description. In similar way but when integrating over $\theta$ we get the following expression for term two in equation one.
+\begin{equation*}
+P(w_i \vert z_i = j, z_{\neg i}, w_{\neg i}) = \frac{ N^{w_i}_{k,\neg i} + \eta }{V\eta + \sum_{w^{\theta}=1}^V N^{w^\theta}_{k, \neg i}}
+\end{equation*}
 
-$$P(z_i = k | z_{\neg i}) = \frac{\alpha + M^{k}_{d,\neg i}}{T\alpha + \sum_{k^\theta=1}^T M^k_{d, \neg i} } $$
+which is the first part of equation (1) in the assignment description. In
+similar way but when integrating over $\theta$ we get the following expression
+for the second term in equation (2) (also from the assignment).
 
-As we see we end up with equation two if we replace the right hand side with the corresponding equations stated above.
+\begin{equation*}
+P(z_i = k \vert z_{\neg i}) = \frac{\alpha + M^{k}_{d,\neg i}}{T\alpha + \sum_{k^\theta=1}^T M^k_{d, \neg i} }
+\end{equation*}
+
+As we see we end up with equation (2) if we replace the right hand side with
+the corresponding equations stated above.
+
 \paragraph{b}
 
 $\beta$ represents what words related to each topic. For a given topic k,
@@ -76,6 +90,15 @@ document and vice versa.
 \paragraph{c}
 \paragraph{d}
 \paragraph{e}
+
+We use a Gibbs sampler to assign topics to words. This means that since we
+sample there's going to be a random element to each run. As such we can only
+work with the expected value of the distributions.
+
 \paragraph{f}
+
+This does not matter that much because as the number of iterations increases we
+will approach the expected value. If the run the algorithm enough times the
+approximation will be very close to the exact values.
 
 \end{document}
