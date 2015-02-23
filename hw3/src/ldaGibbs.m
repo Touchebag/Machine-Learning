@@ -63,18 +63,45 @@ end
 
 % --- Inference, sampling Z
 
-for d = 1:nDocuments
-    for w = 1:length(data{d}.id)
-        probTopic = zeros(nTopics,1);
-        for t = 1:nTopics
-            ntw  = N(w,t) - data{d}.cnt(w); 
-            ntwa = sum(N(:,t)) - N(w,t); % Is this correct?
-            mdt  = M(d,t) - data{d}.cnt(w);
-            mdta = sum(M(d,:)) - M(d,t); %  Is this correct?
-            probTopic(t) = (eta + ntw)/(nWords*eta + ntwa) * (alpha + mdt) / (nTopics*alpha + mdta);
+rdCntDwn = nBurnIn;
+for iteration = 1:nIt
+    for d = 1:nDocuments
+        for w = 1:length(data{d}.id)
+            probTopic = zeros(nTopics,1);
+            for t = 1:nTopics
+                ntwa = sum(N(:,t)) - N(w,t); % Is this correct?
+                mdta = sum(M(d,:)) - M(d,t); %  Is this correct?
+                ntw  = N(w,t);
+                mdt  = M(d,t);
+                if Z(d,w) == t
+                    ntw  = ntw - data{d}.cnt(w); 
+                    mdt  = mdt - data{d}.cnt(w);
+                end
+                probTopic(t) = (eta + ntw)/(nWords*eta + ntwa) * (alpha + mdt) / (nTopics*alpha + mdta);
+            end
+            newT = randsample(nTopics, 1, true, probTopic);
+            newT
+            N(data{d}.cnt(w),t) = N(data{d}.cnt(w),t) - data{d}.cnt(w); %something wrong   % UPDATES SHOULD NOT BE WITH W, but rather with data{d}.id(w)!!!!!
+            N(data{d}.cnt(w),newT) = N(data{d}.cnt(w),newT) + data{d}.cnt(w);
+            M(d,t) = M(d,t) - data{d}.cnt(w); %  wrong
+            M(d,newT) = M(d,newT) + data{d}.cnt(w);
         end
-        % sample zi and update M & N.
     end
-    d
-end         
+    % check if we should read beta and theta.
+    if rdCntDwn < 1
+        % read out beta and theta
+        for t = 1:nTopics
+           for w = 1:length(data{d}.id)
+              beta(t,w) = (N(data{d}.id(w),t) + eta) / (sum(N(:,t)) + eta*nWords); % should nWords be number of words in document d instead?
+           end
+           for d = 1:nDocuments
+               theta(d,t) = (M(d, t) + alpha) / (sum(M(d,:)) + nTopics*alpha);
+           end
+        end
+        rdCntDwn = nReadIt;
+    else
+        rdCntDwn = rdCntDwn - 1;
+    end
+ iteration   
+end
 end
