@@ -32,18 +32,14 @@ nDocuments = length(data);
 beta = zeros(nTopics,nWords);
 theta = zeros(nDocuments,nTopics);
 
-% ------- BELOW, YOU SHOULD IMPLEMENT THE GIBBS SAMPLER -------------
-% ------- AND OUTPUT beta AND theta.                     -------------
-
 
 % --- Initialization
-
 N = zeros(nWords, nTopics); % skip excluding in this step?
 M = zeros(nDocuments, nTopics); % skip excluding in this step?
 Z = ones(nDocuments, nWords)*(-1); % Initialize topic to -1 for words that is not part of the document.
 for d = 1:nDocuments
     for w = 1: length(data{d}.id)
-        Z(d,w) = randi([1,nTopics]); % initialize words that exist to a random topic
+        Z(d,data{d}.id(w)) = randi([1,nTopics]); % initialize words that exist to a random topic
     end
 end
 
@@ -52,9 +48,9 @@ end
 for d = 1:nDocuments
     for w = 1:length(data{d}.id)
        for t = 1:nTopics
-           if Z(d,w) == t
-               N(w,t) = N(w,t) + data{d}.cnt(w);
-               M(d,t) = M(d,t) + data{d}.cnt(w); % They look too similar, should there be another setup?
+           if Z(d,data{d}.id(w)) == t
+               N(data{d}.id(w),t) = N(data{d}.id(w),t) + data{d}.cnt(w);
+               M(d,t) = M(d,t) + data{d}.cnt(w); 
            end
        end
     end
@@ -62,38 +58,32 @@ end
 
 
 % --- Inference, sampling Z
-
 rdCntDwn = nBurnIn;
 for iteration = 1:nIt
     for d = 1:nDocuments
         for w = 1:length(data{d}.id)
             probTopic = zeros(nTopics,1);
             for t = 1:nTopics
-                ntwa = sum(N(:,t)) - N(w,t); % Is this correct?
-                mdta = sum(M(d,:)) - M(d,t); %  Is this correct?
-                ntw  = N(w,t);
+                ntwa = sum(N(:,t)) - N(data{d}.id(w),t);
+                mdta = sum(M(d,:)) - M(d,t);
+                ntw  = N(data{d}.id(w),t);
                 mdt  = M(d,t);
-                if Z(d,w) == t
+                if Z(d,data{d}.id(w)) == t
                     ntw  = ntw - data{d}.cnt(w); 
                     mdt  = mdt - data{d}.cnt(w);
                 end
                 probTopic(t) = (eta + ntw)/(nWords*eta + ntwa) * (alpha + mdt) / (nTopics*alpha + mdta);
             end
-            
-            % SOMETHING WRONG WITH THESE UPDATES, WE GET NEGATIVE VALUES ON
-            % SOME INDEXES IN N & M.
             newT = randsample(nTopics, 1, true, probTopic);
-            newT
-            N(data{d}.id(w),t) = N(data{d}.id(w),t) - data{d}.cnt(w); %something wrong   % UPDATES SHOULD NOT BE WITH W, but rather with data{d}.id(w)!!!!!
+            N(data{d}.id(w),Z(d,data{d}.id(w))) = N(data{d}.id(w),Z(d,data{d}.id(w))) - data{d}.cnt(w);
             N(data{d}.id(w),newT) = N(data{d}.id(w),newT) + data{d}.cnt(w);
-            M(d,t) = M(d,t) - data{d}.cnt(w); %  wrong
+            M(d,Z(d,data{d}.id(w))) = M(d,Z(d,data{d}.id(w))) - data{d}.cnt(w);
             M(d,newT) = M(d,newT) + data{d}.cnt(w);
-            Z(d,w) = newT;
+            Z(d,data{d}.id(w)) = newT;
         end
     end
     % check if we should read beta and theta.
     if rdCntDwn < 1
-        % read out beta and theta
         for t = 1:nTopics
            for w = 1:length(data{d}.id)
               beta(t,w) = (N(data{d}.id(w),t) + eta) / (sum(N(:,t)) + eta*nWords); % should nWords be number of words in document d instead?
