@@ -50,7 +50,7 @@ for d = 1:nDocuments
        for t = 1:nTopics
            if Z(d,data{d}.id(w)) == t
                N(data{d}.id(w),t) = N(data{d}.id(w),t) + data{d}.cnt(w);
-               M(d,t) = M(d,t) + data{d}.cnt(w); 
+               M(d,t) = M(d,t) + data{d}.cnt(w);
            end
        end
     end
@@ -69,7 +69,7 @@ for iteration = 1:nIt
                 ntw  = N(data{d}.id(w),t);
                 mdt  = M(d,t);
                 if Z(d,data{d}.id(w)) == t
-                    ntw  = ntw - data{d}.cnt(w); 
+                    ntw  = ntw - data{d}.cnt(w);
                     mdt  = mdt - data{d}.cnt(w);
                 end
                 probTopic(t) = (eta + ntw)/(nWords*eta + ntwa) * (alpha + mdt) / (nTopics*alpha + mdta);
@@ -84,17 +84,16 @@ for iteration = 1:nIt
     end
     % check if we should read beta and theta.
     if rdCntDwn < 1
+        betaNTemp = zeros(t, nWords);;
+        for di = 1:nDocuments
+           for wi = 1:length(data{di}.id)
+              t = Z(di, data{di}.id(w);
+              betaNTemp(t, data{di}.id(wi)) = betaNTemp(t, data{di}.id(wi)) + data{di}.cnt(wi);
+           end
+        end
         for t = 1:nTopics
             for w = 1:nWords
-                betaNTemp = 0;
-                for di = 1:nDocuments
-                   for wi = 1:length(data{di}.id)
-                       if data{di}.id(wi) == w && Z(di, data{di}.id(wi)) == t
-                            betaNTemp = betaNTemp + data{di}.cnt(wi);
-                       end
-                   end
-                end
-                beta(t,w) = (betaNTemp + eta) / (sum(N(:,t)) + eta*nWords);
+                beta(t,w) = (betaNTemp(t,w) + eta) / (sum(N(:,t)) + eta*nWords);
             end
             for d = 1:nDocuments
                theta(d,t) = (M(d, t) + alpha) / (sum(M(d,:)) + nTopics*alpha);
@@ -106,6 +105,6 @@ for iteration = 1:nIt
     else
         rdCntDwn = rdCntDwn - 1;
     end
- iteration   
+ iteration
 end
 end
