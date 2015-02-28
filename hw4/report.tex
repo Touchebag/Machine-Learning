@@ -93,6 +93,13 @@ weight. So the new weights becomes
   y_i \frac{\partial E}{\partial z_j}
 \end{align}
 
+\subsection*{2.1}
+
+The weight decay part of the cost gradient is the derivative of
+\begin{align}
+  \frac{d}{d\mathbf{w}}\frac{1}{2}\cdot wd_coefficient \cdot \theta^2 \Rightarrow \\
+  \nonumber \frac{\partial}{\partial w_i} = 2 \cdot \frac{1}{2} wd\_coefficient \cdot \theta = wd\_coefficient \theta
+\end{align}
 
 
 \end{document}
