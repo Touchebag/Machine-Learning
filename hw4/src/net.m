@@ -134,18 +134,11 @@ function res = grad(model, data, wd_coefficient)
   output_error = class_prob - data.targets;
   weight_diff = output_error * hid_output';
 
-  hidden_error = model.hid_to_class' * output_error;
-
-  for i = 1:size(data.inputs,2)
-    hid_weight_diff = hid_weight_diff + hidden_error(:,i) * data.inputs(:,i)';
-  end
-
-  %% TODO - Write code here ---------------
-
-    % Right now the function just returns a lot of zeros. Your job is to change that.
-    res.input_to_hid = model.input_to_hid .* wd_coefficient + hid_weight_diff/1000;
-    res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff/size(data.inputs,2);
-  % ---------------------------------------
+  hidden_error = hid_output .* (1 - hid_output) .* (model.hid_to_class' * output_error);
+  hid_weight_diff = hidden_error * data.inputs';
+  
+  res.input_to_hid = model.input_to_hid .* wd_coefficient + hid_weight_diff/size(data.inputs,2);
+  res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff/size(data.inputs,2);
 end
 
 %% Activation functions
