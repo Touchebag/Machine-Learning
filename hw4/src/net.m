@@ -20,7 +20,7 @@ function net(wd_coefficient, n_hid, n_iters, learning_rate, momentum_multiplier,
   end
   for optimization_iteration_i = 1:n_iters,
     model = theta_to_model(theta);
-    
+
     training_batch_start = mod((optimization_iteration_i-1) * mini_batch_size, n_training_cases)+1;
     training_batch.inputs = datas.training.inputs(:, training_batch_start : training_batch_start + mini_batch_size - 1);
     training_batch.targets = datas.training.targets(:, training_batch_start : training_batch_start + mini_batch_size - 1);
@@ -42,7 +42,7 @@ function net(wd_coefficient, n_hid, n_iters, learning_rate, momentum_multiplier,
     if optimization_iteration_i == n_iters, % check gradient again, this time with more typical parameters and with a different data size
       fprintf('Now testing the gradient on just a mini-batch instead of the whole training set... ');
       test_gradient(model, training_batch, wd_coefficient);
-    end 
+    end
   end
   if do_early_stopping,
     fprintf('Early stopping: validation cost was lowest after %d iterations. We chose the model that we had then.\n', best_so_far.after_n_iters);
@@ -98,15 +98,15 @@ function res = cost(model, data, wd_coefficient)
 % The function runs the model on the supplied data and returns the cost.
   % model.input_to_hid  Contains the weights from the input units to the hidden units.
   % model.hid_to_class  Contains the weights from the hidden units to the softmax units.
-  % data.inputs         Each column corresponds to an input vector. 
+  % data.inputs         Each column corresponds to an input vector.
   % data.targets        Contains a one-of-N encoding of the target class.
-	
+
   % Forward propagation
-  hid_input = model.input_to_hid * data.inputs; 
+  hid_input = model.input_to_hid * data.inputs;
   hid_output = logistic(hid_input);
   class_input = model.hid_to_class * hid_output;
   log_class_prob = logsoftmax(class_input);
- 
+
   % Compute cost
   classification_loss = -mean(sum(log_class_prob .* data.targets, 1)); % select the right log class probability using that sum; then take the mean over all data cases.
   wd_loss = sum(model_to_theta(model).^2)/2*wd_coefficient; % weight decay cost. very straightforward: E = 1/2 * wd_coeffecient * theta^2
@@ -121,24 +121,25 @@ function res = grad(model, data, wd_coefficient)
 
   % The returned object is supposed to be exactly like parameter <model>, i.e. it has fields res.input_to_hid and res.hid_to_class. However, the contents of those matrices are gradients (d cost by d model parameter), instead of model parameters.
 
-
   % Forward propagation
-  hid_input = model.input_to_hid * data.inputs; 
+  hid_input = model.input_to_hid * data.inputs;
   hid_output = logistic(hid_input);
   class_input = model.hid_to_class * hid_output;
   log_class_prob = logsoftmax(class_input);
-  class_prob = exp(log_class_prob); 
+  class_prob = exp(log_class_prob);
   % class_prob is the model output.
 
-  hid_weight_diff = zeros(size(model.input_to_hid));
   output_error = class_prob - data.targets;
   weight_diff = output_error * hid_output';
 
-  hidden_error = hid_output .* (1 - hid_output) .* (model.hid_to_class' * output_error);
+  hidden_error = (hid_output .* (1 - hid_output)) .* (model.hid_to_class' * output_error);
   hid_weight_diff = hidden_error * data.inputs';
-  
-  res.input_to_hid = model.input_to_hid .* wd_coefficient + hid_weight_diff/size(data.inputs,2);
-  res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff/size(data.inputs,2);
+
+  %% TODO - Write code here ---------------
+
+    res.input_to_hid = model.input_to_hid .* wd_coefficient + hid_weight_diff/size(data.inputs,2);
+    res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff/size(data.inputs,2);
+  % ---------------------------------------
 end
 
 %% Activation functions
@@ -150,19 +151,19 @@ function log_class_prob = logsoftmax(class_input)
   % The following lines of code implement the softmax.
   % However, it's written differently from what the lectures say.
   % In the lectures, a softmax is described using an exponential divided by a sum of exponentials.
-  % What we do here is exactly equivalent (you can check the math or just check it in practice), but this is more numerically stable. 
+  % What we do here is exactly equivalent (you can check the math or just check it in practice), but this is more numerically stable.
   % "Numerically stable" means that this way, there will never be really big numbers involved.
   % The exponential in the lectures can lead to really big numbers, which are fine in mathematical equations, but can lead to all sorts of problems in Matlab.
   % Matlab isn't well prepared to deal with really large numbers, like the number 10 to the power 1000. Computations with such numbers get unstable, so we avoid them.
   % This computes log(sum(exp(a), 1)) in a numerically stable way
-  
+
   % log(sum(exp of class_input)) is what we subtract to get properly normalized log class probabilities. size: <1> by <number of data cases>
   maxs_small = max(class_input, [], 1);
   maxs_big = repmat(maxs_small, [size(class_input, 1), 1]);
   class_normalizer = log(sum(exp(class_input - maxs_big), 1)) + maxs_small;
-  
+
   log_class_prob = class_input - repmat(class_normalizer, [size(class_input, 1), 1]); % log of probability of each class. size: <number of classes, i.e. 10> by <number of data cases>
-  
+
 end
 
 %% Test and evaluation
@@ -171,14 +172,14 @@ function res = classification_performance(model, data)
   hid_input = model.input_to_hid * data.inputs; % input to the hidden units, i.e. before the logistic. size: <number of hidden units> by <number of data cases>
   hid_output = logistic(hid_input); % output of the hidden units, i.e. after the logistic. size: <number of hidden units> by <number of data cases>
   class_input = model.hid_to_class * hid_output; % input to the components of the softmax. size: <number of classes, i.e. 10> by <number of data cases>
-  
+
   [dump, choices] = max(class_input); % choices is integer: the chosen class, plus 1.
   [dump, targets] = max(data.targets); % targets is integer: the target class, plus 1.
   res = mean(double(choices ~= targets));
 end
 
 function test_gradient(model, data, wd_coefficient)
-  % Function for doing gradient checking 
+  % Function for doing gradient checking
   base_theta = model_to_theta(model);
   h = 1e-2;
   correctness_threshold = 1e-5;
@@ -196,7 +197,7 @@ function test_gradient(model, data, wd_coefficient)
   if any(isnan(analytic_gradient)) || any(isinf(analytic_gradient)),
      error('Your gradient computation produced a NaN or infinity. That is an error.')
   end
-  
+
   input_to_hid_theta_size = prod(size(model.input_to_hid));
   hid_to_class_theta_size = prod(size(model.hid_to_class));
   big_prime = 1299721; % 1299721 is prime and thus ensures a somewhat random-like selection of indices.
