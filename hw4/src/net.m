@@ -130,15 +130,16 @@ function res = grad(model, data, wd_coefficient)
   % class_prob is the model output.
 
   output_error = class_prob - data.targets;
-  weight_diff = output_error * hid_output';
+  weight_diff = output_error * hid_output' / size(data.inputs,2);
 
-  hidden_error = (hid_output .* (1 - hid_output)) .* (model.hid_to_class' * output_error);
-  hid_weight_diff = hidden_error * data.inputs';
+  hidden_error = (model.hid_to_class' * output_error);
+  hidden_error = (hid_output .* (1 - hid_output)) .* hidden_error;
+  hid_weight_diff = hidden_error * data.inputs' / size(data.inputs,2);
 
   %% TODO - Write code here ---------------
 
-    res.input_to_hid = model.input_to_hid .* wd_coefficient + hid_weight_diff/size(data.inputs,2);
-    res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff/size(data.inputs,2);
+    res.input_to_hid = model.input_to_hid .* wd_coefficient + hid_weight_diff;
+    res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff;
   % ---------------------------------------
 end
 
