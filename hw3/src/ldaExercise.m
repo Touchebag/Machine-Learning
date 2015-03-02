@@ -69,7 +69,7 @@ nIterations = 30;
 nReadIterations = 5; 
 
 %Length of burn-in
-nBurnIn = 20;
+nBurnIn = 30;
 
 % -------------- YOU MAY MODIFY THE SETTINGS ABOVE -------
 

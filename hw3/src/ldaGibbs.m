@@ -83,6 +83,7 @@ for iteration = 1:nIt
         end
     end
     % check if we should read beta and theta.
+    % NOTE: This is the part that takes time
     if rdCntDwn < 1
         betaNTemp = zeros(t, nWords);;
         for di = 1:nDocuments
