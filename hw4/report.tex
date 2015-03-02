@@ -27,8 +27,9 @@ Only graph (1).
 
 \paragraph{b)}
 
-The network can have no cycles. Only connections forward from one layer to the
-next are allowed.
+Each layer may only have outgoing edges directed to the next layer.
+That is no cycles are allowed, no edges going backwards between layers and
+no edges between units within a single layer.
 
 \subsection*{1.2}
 
@@ -44,8 +45,7 @@ We want to create a network that looks like
   y = \mathbf{w}_3^T \mathbf{x}
 \end{align}
 
-By just setting the outputs as equal (which is exactly what we're after) we get
-the equation
+If we combine these equations we get the following expression to solve.
 
 \begin{align}
   \nonumber \mathbf{w}_3^T \mathbf{x} &= \frac{1}{2}\mathbf{w}_1^T \mathbf{x} + \frac{1}{2}\mathbf{w}_2^T \mathbf{x} \Leftrightarrow\\
@@ -53,14 +53,16 @@ the equation
   \nonumber \mathbf{w}_3 &= \frac{1}{2}\mathbf{w}_1 + \frac{1}{2}\mathbf{w}_2
 \end{align}
 
+So clearly $f(\mathbf{w}_1,\mathbf{w}_2) = \frac{1}{2} \mathbf{w}_1 + \frac{1}{2}\mathbf{w}_2$ which definitely is linear.
+So we can get the exact same predictions in a single feed-forward network.
 \subsection*{1.3}
 
-We calculate the gradient of $E = \frac{1}{2} \left(t - y \right)$ with regards
+We calculate the gradient of $E = \frac{1}{2} \left(t - y \right)^2$ with regards
 to $\mathbf{w}$, multiply by our learning rate and subtract this from the new
-weight. So the new weights becomes
+weight. So the new weights become
 
 \begin{align}
-  w_i = \frac{\partial E}{\partial w_i}
+  w_i^+ = w_i + \frac{\partial E}{\partial w_i} = w_i - (t - y)
 \end{align}
 
 \subsection*{1.4}
@@ -96,14 +98,25 @@ weight. So the new weights becomes
 
 \subsection*{2.1}
 
-% TODO cost derivative
+For the weight decay we have
+$E = \frac{\text{weight decay}}{2}\sum \theta^2$ so the gradient is
 
-The weight decay part of the cost gradient is the derivative of
 \begin{align}
-  \frac{d}{d\mathbf{w}}\frac{1}{2}\cdot wd_coefficient \cdot \theta^2 \Rightarrow \\
-  \nonumber \frac{\partial}{\partial w_i} = 2 \cdot \frac{1}{2} wd\_coefficient \cdot \theta = wd\_coefficient \theta
+  \nonumber \frac{\partial E}{\partial w_i} = 2 \cdot \frac{1}{2} \text{weight decay} \cdot \theta = \text{weight decay} \cdot \theta
 \end{align}
 
+For the cross entroypy we have
+$$ \mathbf{z} = \mathbf{Wx}$$
+$$\frac{dz}{dw} = x, \frac{dz}{dx} = w$$
+$$ y^{(i)} = \sigma(\mathbf{z^{(i)}})$$
+$$E = -\frac{1}{m} \sum_{i=1}^m \sum_c^k log(y^{(i)}_c)
+t_c^{(i)} $$
+
+So the gradient for the output layer to hidden layer is
+$$ \frac{\partial E}{\partial z_c} =\frac{1}{m}(y_c - t_c) $$
+The gradient for the hidden layer to the input layer is then
+$$\frac{\partial E}{\partial w_{c,j}} = \frac{\partial E}{\partial z_c}\frac{dz_c}{dw_{c,j}}
+= \frac{1}{m}(y_c - t_c)x_j$$
 \subsection*{2.2}
 
 The code we added to the gradient function is as follows
@@ -120,20 +133,24 @@ The code we added to the gradient function is as follows
   res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff;
 \end{verbatim}
 
-The training cost we got from running net(0.1, 7, 10, 0, 0, false, 4) was 2.768381.
+net(0.1, 7, 10, 0, 0, false, 4) have training cost 2.768381.
 
 \subsection*{2.3}
 
 \paragraph{a}
+The lowest training cost come from using a learning rate of $0.2$ with a momentum of $0.9$.
+The training cost is then $1.083429$. Figure 1 show how the cost decrease over the number of iterations.
 
-We got the lowest training cost by using a learning rate of $0.2$ and with a
-momentum of $0.9$. The cost of $1.083429$ was one of two radically lower setups
-(the other was a cost of aruond $1.59$ for a learning rate of $0.1$ without
-momentum). The rest of the setups had a cost of $2.0 - 2.3$.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.5\textwidth]{pics/prob23a.png}
+    \caption{Cost graph for the best case of the 14 experiments.}
+\end{figure}
 
 \paragraph{b}
 
-With a momentum of $0.9$.
+The best run is with a momentum ($0.9$).
 
 \paragraph{c}
 
@@ -144,11 +161,20 @@ With a learning rate of $0.2$.
 \paragraph{a}
 
 The validation cost of running net(0, 200, 1000, 0.35, 0.9, false, 100) is
-$0.430185$.
+$0.430185$. Figure 2 show how the cost have a minimum prior to the end of the iterations.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.5\textwidth]{pics/prob23a.png}
+    \caption{Cost graph for net(0, 200, 1000, 0.35, 0.9, false, 100).}
+\end{figure}
+
 
 \paragraph{b}
 
-If we instead use early stoppping we get a validation cost of $0.334505$.
+With the use of early stopping we get a validation cost of $0.334505$.
+The validation cost was the lowest at iteration number 161.
+ From Figure 2 we can see that it should be around iteration $150$ and $200$ which indeed is correct.
 
 \paragraph{c}
 
@@ -168,7 +194,7 @@ If we instead use early stoppping we get a validation cost of $0.334505$.
   5 & 2.302858\\
 \end{tabular}
 
-A low weight decay of $0.001$ seems to work good.
+A low weight decay of $0.001$ seem to work well.
 
 \paragraph{d}
 
@@ -186,7 +212,7 @@ A low weight decay of $0.001$ seems to work good.
   200 & 0.430185\\
 \end{tabular}
 
-Without early stopping a hidden layer size of $30$ units gave the lowest
+Without early stopping a hidden layer of $30$ units give the lowest
 validation cost.
 
 \paragraph{e}
@@ -205,11 +231,18 @@ validation cost.
   236 & 0.343841\\
 \end{tabular}
 
-With early stopping, $37$ hidden units worked best.
+With early stopping $37$ hidden units work best.
+ Figure 3 show a run with early stopping and $37$ hidden units.
+
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=0.5\textwidth]{pics/prob24e.png}
+    \caption{Cost graph with 37 hidden units and early stopping.}
+\end{figure}
 
 \paragraph{f}
 
-Running net(0, 37, 1000, 0.35, 0.9, true, 100) gives test data error of
+Running net(0, 37, 1000, 0.35, 0.9, true, 100) give test data error of
 $0.084333$.
 
 \end{document}
