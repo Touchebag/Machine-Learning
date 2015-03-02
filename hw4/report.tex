@@ -96,6 +96,8 @@ weight. So the new weights becomes
 
 \subsection*{2.1}
 
+% TODO cost derivative
+
 The weight decay part of the cost gradient is the derivative of
 \begin{align}
   \frac{d}{d\mathbf{w}}\frac{1}{2}\cdot wd_coefficient \cdot \theta^2 \Rightarrow \\
@@ -104,24 +106,110 @@ The weight decay part of the cost gradient is the derivative of
 
 \subsection*{2.2}
 
-2.768381
+The code we added to the gradient function is as follows
+
+\begin{verbatim}
+  output_error = class_prob - data.targets;
+  weight_diff = output_error * hid_output' / size(data.inputs,2);
+
+  hidden_error = (model.hid_to_class' * output_error);
+  hidden_error = (hid_output .* (1 - hid_output)) .* hidden_error;
+  hid_weight_diff = hidden_error * data.inputs' / size(data.inputs,2);
+
+  res.input_to_hid = model.input_to_hid .* wd_coefficient + hid_weight_diff;
+  res.hid_to_class = model.hid_to_class .* wd_coefficient + weight_diff;
+\end{verbatim}
+
+The training cost we got from running net(0.1, 7, 10, 0, 0, false, 4) was 2.768381.
 
 \subsection*{2.3}
 
 \paragraph{a}
 
-0.2 with 0.9 = 1.083429
+We got the lowest training cost by using a learning rate of $0.2$ and with a
+momentum of $0.9$. The cost of $1.083429$ was one of two radically lower setups
+(the other was a cost of aruond $1.59$ for a learning rate of $0.1$ without
+momentum). The rest of the setups had a cost of $2.0 - 2.3$.
 
 \paragraph{b}
 
-With
+With a momentum of $0.9$.
 
 \paragraph{c}
 
-0.2
-
+With a learning rate of $0.2$.
 
 \subsection*{2.4}
 
+\paragraph{a}
+
+The validation cost of running net(0, 200, 1000, 0.35, 0.9, false, 100) is
+$0.430185$.
+
+\paragraph{b}
+
+If we instead use early stoppping we get a validation cost of $0.334505$.
+
+\paragraph{c}
+
+\begin{tabular}{c | c}
+  Weight decay & validation cost\\
+  \hline
+  0 & 0.430185\\
+  \hline
+  10 & 22.612744\\
+  \hline
+  1 & 2.302585\\
+  \hline
+  0.0001 & 0.348294\\
+  \hline
+  0.001 & 0.287910\\
+  \hline
+  5 & 2.302858\\
+\end{tabular}
+
+A low weight decay of $0.001$ seems to work good.
+
+\paragraph{d}
+
+\begin{tabular}{c | c}
+  Number of hidden units & validation cost\\
+  \hline
+  10 & 0.421705\\
+  \hline
+  30 & 0.317077\\
+  \hline
+  100 & 0.368593\\
+  \hline
+  130 & 0.397597\\
+  \hline
+  200 & 0.430185\\
+\end{tabular}
+
+Without early stopping a hidden layer size of $30$ units gave the lowest
+validation cost.
+
+\paragraph{e}
+
+\begin{tabular}{c | c}
+  Number of hidden units & validation cost\\
+  \hline
+  18 & 0.306083\\
+  \hline
+  37 & 0.265165\\
+  \hline
+  83 & 0.311244\\
+  \hline
+  113 & 0.313749\\
+  \hline
+  236 & 0.343841\\
+\end{tabular}
+
+With early stopping, $37$ hidden units worked best.
+
+\paragraph{f}
+
+Running net(0, 37, 1000, 0.35, 0.9, true, 100) gives test data error of
+$0.084333$.
 
 \end{document}
