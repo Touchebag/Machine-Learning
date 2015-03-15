@@ -78,10 +78,10 @@ H = eye(3);
 f = zeros(size(H,2),1);
 b = -abs(Y);
 A = -[diag(Y)*X Y];
-lw = quadprog(H, f, A, b)
+lw = quadprog(H, f, A, b);
 line = @(x1,x2) lw(1)*x1 + lw(2)*x2 + lw(3);
 figure(1);
-e = ezplot(line, [-2.5 2.5 -2.5 2.5])
+e = ezplot(line, [-2.5 2.5 -2.5 2.5]);
 set(e,'Color', 'black');
 hold on
 % slow for-loop but gets the job done.
@@ -96,6 +96,7 @@ yAboveW = [];
 
 margin = 1/sqrt(lw(1)^2 + lw(2)^2);
 minAbove = 1000;
+minBelow = 1000;
 
 for i=1:size(Y,1)
     lineVal = line(X(i,1), X(i,2));
@@ -136,5 +137,69 @@ hold on
 scatter(xAboveC(:,1), xAboveC(:,2), [], 'blue', 'filled');
 hold on
 scatter(xAboveW(:,1), xAboveW(:,2), [], 'red');
+hold off
+
+lineQPT = 0;
+lineSMOT = 0;
+quadQPT = 0;
+quadSMOT = 0;
+rbfSMOT = 0;
+rbfQPT = 0;
+wLineQP = 0;
+wLineSMO = 0;
 
 
+for i=1:5
+    indices = randperm(size(Y,1));
+    testIndices = indices(1:round(size(Y,1)/5));
+    trainIndices = indices(round(size(Y,1)/5):end);
+    
+    xTrain = X(trainIndices, :);
+    yTrain = Y(trainIndices, :);
+    xTest = X(testIndices, :);
+    yTest = Y(testIndices, :);
+
+
+    tic
+    svmStruct = svmtrain(xTrain, yTrain, 'kernel_function', 'linear', 'method', 'QP');
+    group = svmclassify(svmStruct, xTest);
+    wLineQP = wLineQP + sum(not(group == yTest));
+    lineQPT = toc + lineQPT;
+    
+    tic;
+    svmStruct = svmtrain(xTrain, yTrain, 'kernel_function', 'linear', 'method', 'SMO');
+    group = svmclassify(svmStruct, xTest);
+    wLineSMO = wLineSMO + sum(not(group == yTest));
+    lineSMOT = toc + lineSMOT;
+
+
+    tic;
+    svmStruct = svmtrain(xTrain, yTrain, 'kernel_function', 'quadratic', 'method', 'QP');
+    group = svmclassify(svmStruct, xTest);
+    sum(not(group == yTest));
+    quadQPT =toc + quadQPT;
+    
+    
+    tic;
+    svmStruct = svmtrain(xTrain, yTrain, 'kernel_function', 'quadratic', 'method', 'SMO');
+    group = svmclassify(svmStruct, xTest);
+    sum(not(group == yTest));
+    quadSMOT = toc + quadSMOT;
+    
+    
+    tic;
+    svmStruct = svmtrain(xTrain, yTrain, 'kernel_function', 'rbf', 'method', 'QP');
+    group = svmclassify(svmStruct, xTest);
+    sum(not(group == yTest));
+    rbfQPT = toc + rbfQPT;
+    
+    
+    tic;
+    svmStruct = svmtrain(xTrain, yTrain, 'kernel_function', 'rbf', 'method', 'SMO');
+    group = svmclassify(svmStruct, xTest);
+    sum(not(group == yTest));
+    rbfSMOT = toc + rbfSMOT;
+    
+end
+wLineQPproc = wLineQP / (size(yTest,1)*5)
+wLineSMOproc = wLineQP / (size(yTest,1)*5)
