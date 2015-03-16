@@ -5,7 +5,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsfonts}
-
+\usepackage{cases}
 \pagestyle{fancy}
 
 \author{
@@ -21,7 +21,49 @@
 \maketitle
 
 \subsection*{1.1}
+We are asked to analytically compute the weight vector of the optimal hyperplane corresponding to a set of given points. 
+Figure one shows a plot of the given points. 
 
+The linear kernel describing our weight vector is defined as
+\[
+w_1x_1 + w_2*x_2 + b = 0
+\]
+
+We have four points that will be support vectors.
+If we take the distance between the two upper points, $(0,2)$ and $(2,2)$ we get that the point right between them is $(1,2)$.
+If we do the same for the two lower points $(2,0)$ and $(4,0)$ we get the point $(3,0)$ right between them. 
+The points between the pairs of support vectors is all we need to compute the linear kernel for our weight vector. We setup an equation system of the points and solve it to get the weight vector. 
+The equation system looks as follows.
+\[
+\begin{cases}
+
+  w_1  + 2w_2 &+ b = 0 \\
+  3w_1 &+  b = 0 
+
+\end{cases}
+\]
+After solving the equation system we get
+
+\[
+\begin{cases}
+w_1 = w_2\\
+b = -3w_1
+\end{cases}
+\]
+So a convenient solution is to set the weight vector to $w_1 = w_2 = 1$ and therefore $b=-3$.
+With this solution we can now calculate the margin of the optimal hyperplane to the support vectors. 
+The distance is given by
+\[
+  \frac{|w_1a_1+w_2a_2+b |}{\sqrt{w_1^2+w_2^2}}
+\]
+Let $(a_1,a_2)$ be a support vector, for example $(2,0)$ and we get $\gamma = \frac{1}{\sqrt2}$.
+So we get that the margin is $2\gamma = \sqrt2$.
+\begin{figure}
+\includegraphics[scale=0.6]{pics/plot11.png}
+\caption{Plot of the given points in problem 1.1. 
+  Red points are classified as -1 and blue points are classified as +1. 
+Filled points are support vectors.}
+\end{figure}
 \subsection*{1.2}
 \paragraph{a}
 
@@ -60,19 +102,28 @@ Which can be simplified to
 See code.
 
 \paragraph{b}
-The support vectors are marked as filled points. \\
-\includegraphics[scale = 0.7]{pics/plot21.png}
-
+See Figure 2.
+\begin{figure}
+\begin{center}
+\includegraphics[scale = 0.6]{pics/plot21.png}
+\caption{Plot for problem 2.1, the support vectors are marked as filled points.}
+\end{center}
+\end{figure}
 \paragraph{c}
 It has a bias of $\approx 1.7785$.
 
 \paragraph{d}
-The margin $\gamma$ is $\approx 0.1523$.
+The margin is $2\gamma \approx 0.3046$.
 
 \subsection*{2.2}
 \paragraph{a}
-The filled points are corretly classified.\\
-\includegraphics[scale = 0.7]{pics/plot22.png}
+See Figure 3.
+\begin{figure}
+\begin{center}
+\includegraphics[scale = 0.6]{pics/plot22.png}
+\caption{ Plot for problem 2.2, the filled points are correctly classified.}
+\end{center}
+\end{figure}
 
 \paragraph{b}
 
