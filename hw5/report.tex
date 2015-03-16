@@ -21,15 +21,15 @@
 \maketitle
 
 \subsection*{1.1}
-We are asked to analytically compute the weight vector of the optimal hyperplane corresponding to a set of given points.
-Figure one shows a plot of the given points.
+In this problem we analytically calculate the weight vector of the optimal hyperplane corresponding to a set of given points.
+Figure one shows a plot of the given points.\\
 
 The linear kernel describing our weight vector is defined as
 \[
 w_1x_1 + w_2*x_2 + b = 0
 \]
 
-We have four points that will be support vectors.
+By looking at the plot we see four points that will be support vectors.
 If we take the distance between the two upper points, $(0,2)$ and $(2,2)$ we get that the point right between them is $(1,2)$.
 If we do the same for the two lower points $(2,0)$ and $(4,0)$ we get the point $(3,0)$ right between them.
 The points between the pairs of support vectors is all we need to compute the linear kernel for our weight vector. We setup an equation system of the points and solve it to get the weight vector.
