@@ -21,8 +21,8 @@
 \maketitle
 
 \subsection*{1.1}
-We are asked to analytically compute the weight vector of the optimal hyperplane corresponding to a set of given points. 
-Figure one shows a plot of the given points. 
+We are asked to analytically compute the weight vector of the optimal hyperplane corresponding to a set of given points.
+Figure one shows a plot of the given points.
 
 The linear kernel describing our weight vector is defined as
 \[
@@ -31,14 +31,14 @@ w_1x_1 + w_2*x_2 + b = 0
 
 We have four points that will be support vectors.
 If we take the distance between the two upper points, $(0,2)$ and $(2,2)$ we get that the point right between them is $(1,2)$.
-If we do the same for the two lower points $(2,0)$ and $(4,0)$ we get the point $(3,0)$ right between them. 
-The points between the pairs of support vectors is all we need to compute the linear kernel for our weight vector. We setup an equation system of the points and solve it to get the weight vector. 
+If we do the same for the two lower points $(2,0)$ and $(4,0)$ we get the point $(3,0)$ right between them.
+The points between the pairs of support vectors is all we need to compute the linear kernel for our weight vector. We setup an equation system of the points and solve it to get the weight vector.
 The equation system looks as follows.
 \[
 \begin{cases}
 
   w_1  + 2w_2 &+ b = 0 \\
-  3w_1 &+  b = 0 
+  3w_1 &+  b = 0
 
 \end{cases}
 \]
@@ -51,7 +51,7 @@ b = -3w_1
 \end{cases}
 \]
 So a convenient solution is to set the weight vector to $w_1 = w_2 = 1$ and therefore $b=-3$.
-With this solution we can now calculate the margin of the optimal hyperplane to the support vectors. 
+With this solution we can now calculate the margin of the optimal hyperplane to the support vectors.
 The distance is given by
 \[
   \frac{|w_1a_1+w_2a_2+b |}{\sqrt{w_1^2+w_2^2}}
@@ -60,10 +60,11 @@ Let $(a_1,a_2)$ be a support vector, for example $(2,0)$ and we get $\gamma = \f
 So we get that the margin is $2\gamma = \sqrt2$.
 \begin{figure}
 \includegraphics[scale=0.6]{pics/plot11.png}
-\caption{Plot of the given points in problem 1.1. 
-  Red points are classified as -1 and blue points are classified as +1. 
+\caption{Plot of the given points in problem 1.1.
+  Red points are classified as -1 and blue points are classified as +1.
 Filled points are support vectors.}
 \end{figure}
+
 \subsection*{1.2}
 \paragraph{a}
 
@@ -89,13 +90,20 @@ Which can be simplified to
   \mathbf{w} = \sum_{i = 1}^{n}\alpha_i y_i x_i
 \end{align}
 
-%TODO derive
+Only those $\alpha_i$ where $x_i$ is a support vector will be greater than
+zero. These support vectors lie on the margin and will thus satisfy $y_i \left(
+\mathbf{w} \cdot x_i - b \right) = 1$.
+
+By reorganising the above equation we now have an expression for $b$. As $b$
+depends on each data point we can just average over all the support vectors and
+get
 
 \begin{align}
-  b = \frac{1}{N_{SV}} \sum_{i = 1}^{N_{SV}} \left( \mathbf{w} \cdot x_i - y_i \right)
+  b = \frac{1}{N} \sum_{i = 1}^{N} \left( \mathbf{w} \cdot x_i - y_i \right)
 \end{align}
 
-\paragraph{b}
+where $N$ is the number of support vectors.
+
 
 \subsection*{2.1}
 \paragraph{a}
