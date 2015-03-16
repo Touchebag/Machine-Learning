@@ -33,14 +33,14 @@ for i=1:size(Y,1)
     if lineVal < 0
         xBelow = [xBelow; X(i,:)];
         yBelow = [yBelow; Y(i)];
-        if xDist < minBelow%margin
+        if xDist < minBelow
            minBelow = xDist;
            xSVBelow = X(i,:);
         end
     else
         xAbove = [xAbove; X(i,:)];
         yAbove = [yAbove; Y(i)];
-        if xDist < minAbove%margin
+        if xDist < minAbove
             minAbove = xDist;
             xSVAbove = X(i,:);
         end

@@ -55,7 +55,7 @@ for i=1:size(Y,1)
             xAboveW = [xAboveW; X(i,:)];
             yAboveW = [yAboveW; Y(i)];
         end
-        if xDist < minAbove%margin
+        if xDist < minAbove
             minAbove = xDist;
             xSVAbove = X(i,:);
         end
